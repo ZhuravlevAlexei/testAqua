@@ -1,0 +1,19 @@
+:root {
+  font-family: var(--primary-font-family);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--primary-dark-grey-color);
+  color-scheme: light dark;
+  background-color: var(--primary-white-color);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media(min-width:768px) {
+    font-size: 16px;
+  }
+}
+
+:root::-webkit-scrollbar {
+  display: none;
+}

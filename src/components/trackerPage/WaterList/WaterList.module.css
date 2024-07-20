@@ -1,0 +1,40 @@
+.waterListWrap {
+  margin-top: 24px;
+  overflow-x: auto;
+}
+
+.waterList {
+  min-height: 74px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  @media screen and (min-width: 768px) {
+    min-height: 86px;
+    gap: 32px;
+  }
+}
+
+.waterListWrap::-webkit-scrollbar {
+  height: 8px;
+}
+
+.waterListWrap::-webkit-scrollbar-thumb {
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: var(--primary-dark-grey-color);
+}
+
+.waterListWrap::-webkit-scrollbar-track {
+  background-color: var(--primary-white-color);
+  border-radius: 9px;
+}
+
+.waterListWrap::-webkit-scrollbar-thumb:vertical {
+  display: none;
+}
+
+.paragraph {
+  margin-top: 24px;
+}
