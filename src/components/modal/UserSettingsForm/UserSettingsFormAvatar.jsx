@@ -1,11 +1,14 @@
-import { Icon } from 'shared/index.js';
-import css from './UserSettingsForm.module.css';
-import { useDispatch } from 'react-redux';
-import { updateUser } from '../../../redux/user/operations.js';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { selectError } from '../../../redux/user/selectors.js';
+import { updateUser } from '../../../redux/user/operations.js';
+import { Icon } from 'shared/index.js';
 import avatarDefault from './avatar_default.png';
+import css from './UserSettingsFormColumns.module.css';
 
 const UserSettingsFormAvatar = ({ register, errors, setValue, watch }) => {
+  const currentError = useSelector(selectError);
   const dispatch = useDispatch();
   const handleFileChange = evt => {
     const file = evt.target.files[0];
@@ -14,24 +17,30 @@ const UserSettingsFormAvatar = ({ register, errors, setValue, watch }) => {
       setValue('avatar', file);
       const formData = new FormData();
       formData.append('avatar', file);
-      dispatch(updateUser(formData));
+
+      //dispatch(updateUser(formData));
+      const promise = dispatch(updateUser(formData)).unwrap();
+      toast.promise(promise, {
+        //pending: 'Updating your avatar...',
+        pending: {
+          render() {
+            return <b>Updating your avatar...</b>;
+          },
+          icon: true,
+        },
+        success: <b>Your avatar is successfully updated</b>,
+        error: <b>Could not update your avatar. ({currentError}).</b>,
+      });
     }
   };
 
   const getSrcForAvatar = avatar => {
-    // console.log(
-    //   'avatar before src -  typeof: ',
-    //   typeof avatar,
-    //   ', avdata:',
-    //   avatar
-    // );
     if (typeof avatar === 'string' && avatar.length !== 0) {
       return avatar;
     } else if (typeof avatar === 'object' && avatar.length !== 0) {
       return URL.createObjectURL(avatar);
     }
     // return '/public/img/userSettingsForm/avatar_default.png';
-    // return '../../../../public/img/userSettingsForm/avatar_default.png';
     return avatarDefault;
   };
 
@@ -53,7 +62,6 @@ const UserSettingsFormAvatar = ({ register, errors, setValue, watch }) => {
             {...register('avatar', { required: true })}
             onChange={handleFileChange}
           />
-          {/* {errors.avatar && <span>Avatar image file is required</span>} */}
         </div>
         <label htmlFor="avatar" className={css.uploadButton}>
           {<Icon className={css.uploadIcon} iconId="icon-upload" />}Upload a
